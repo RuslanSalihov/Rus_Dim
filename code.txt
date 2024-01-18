@@ -1,0 +1,55 @@
+<?php
+
+class CMMI {
+    private $criteria = [
+        '1' => ['name' => 'Процессы управления проектами', 'max_score' => 10],
+        '2' => ['name' => 'Процессы управления конфигурацией', 'max_score' => 10],
+        '3' => ['name' => 'Процессы управления версиями', 'max_score' => 10],
+        // ... добавьте другие критерии здесь
+    ];
+
+    public function getCriteria() {
+        return $this->criteria;
+    }
+
+    public function evaluateCriteria($criteria_id) {
+        if (!isset($this->criteria[$criteria_id])) {
+            return ['error' => 'Критерий не найден'];
+        }
+
+        $score = 0;
+
+        // Здесь вы должны добавить логику оценки каждого критерия
+        // на основе ваших правил и условий
+        // Например:
+        // if (/* условие для оценки */) {
+        //     $score = min($score + 1, $this->criteria[$criteria_id]['max_score']);
+        // }
+
+        return ['criteria_id' => $criteria_id, 'score' => $score];
+    }
+
+    public function getTotalScore() {
+        $total_score = 0;
+
+        foreach ($this->criteria as $criteria_id => $criteria) {
+            $evaluation_result = $this->evaluateCriteria($criteria_id);
+            $total_score += $evaluation_result['score'];
+        }
+
+        return $total_score;
+    }
+}
+
+$cmmi = new CMMI();
+
+// Добавьте оценку для каждого критерия
+$criteria_id = '1';
+$evaluation_result = $cmmi->evaluateCriteria($criteria_id);
+
+echo "Оценка критерия {$cmmi->criteria[$criteria_id]['name']}: {$evaluation_result['score']}/{$cmmi->criteria[$criteria_id]['max_score']}\n";
+
+$total_score = $cmmi->getTotalScore();
+echo "Итоговая оценка процесса разработки: {$total_score}/{$cmmi->criteria['1']['max_score']}\n";
+
+?>
